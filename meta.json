@@ -10,7 +10,7 @@
     "testTemplate": "from wasabi import Printer\n__msg__ = Printer()\n__solution__ = \"\"\"${solution}\"\"\"\n\n${solution}\n\n${test}\n\ntry:\n    test()\nexcept AssertionError as e:\n    __msg__.fail(e)",
     "juniper": {
         "repo": "deep-diver/fastai-course",
-        "branch": "binder",
+        "branch": "master",
         "lang": "python",
         "kernelType": "python3",
         "debug": false
