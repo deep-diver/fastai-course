@@ -1,7 +1,7 @@
 {
     "courseId": "course-starter-python",
-    "title": "My cool online course",
-    "slogan": "A free online course",
+    "title": "fastai 스터디 그룹",
+    "slogan": "코드 실습을 위한",
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam tristique libero at est congue, sed vestibulum tortor laoreet. Aenean egestas massa non commodo consequat. Curabitur faucibus, sapien vitae euismod imperdiet, arcu erat semper urna, in accumsan sapien dui ac mi. Pellentesque felis lorem, semper nec velit nec, consectetur placerat enim.",
     "bio": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam tristique libero at est congue, sed vestibulum tortor laoreet. Aenean egestas massa non commodo consequat. Curabitur faucibus, sapien vitae euismod imperdiet, arcu erat semper urna.",
     "siteUrl": "https://course-starter-python.netlify.com",
