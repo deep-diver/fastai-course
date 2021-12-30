@@ -1,0 +1,10 @@
+##############################
+# Netlify configuration file #
+##############################
+
+# List of Build plugins
+[[plugins]]
+package = "@etchteam/netlify-plugin-npm-audit"
+
+[build.environment]
+NODE_VERSION = "10"
