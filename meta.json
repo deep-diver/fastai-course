@@ -1,11 +1,11 @@
 {
-    "courseId": "course-starter-python",
-    "title": "fastai 스터디 그룹",
-    "slogan": "코드 실습을 위한",
-    "description": "테스트",
-    "bio": "테스트",
-    "siteUrl": "https://course-starter-python.netlify.com",
-    "twitter": "spacy_io",
+    "courseId": "fastai-kr-study-group",
+    "title": "fastai 사용법 공부",
+    "slogan": "코드 실습을 통한",
+    "description": "이 사이트는 fastai KR 커뮤니티에서 진행되는 스터디 그룹을 위해 만들어졌습니다. fastai에서 사용되는 라이브러리의 기능을 알아보고, 간단한 퀴즈를 풀어보며 fastai와 빠르게 친해질 수 있는것을 목표로합니다.",
+    "bio": "fastai KR 운영진 및 fastai에 관심있으신 여러 개발자 분들이 기여해 주셨습니다",
+    "siteUrl": "https://quizzical-clarke-e80392.netlify.app/",
+    "twitter": "algo_diver",
     "fonts": "IBM+Plex+Mono:500|IBM+Plex+Sans:700|Lato:400,400i,700,700i",
     "testTemplate": "from wasabi import Printer\n__msg__ = Printer()\n__solution__ = \"\"\"${solution}\"\"\"\n\n${solution}\n\n${test}\n\ntry:\n    test()\nexcept AssertionError as e:\n    __msg__.fail(e)",
     "juniper": {
@@ -15,11 +15,9 @@
         "kernelType": "python3",
         "debug": false
     },
-    "showProfileImage": true,
+    "showProfileImage": false,
     "footerLinks": [
-        { "text": "Website", "url": "https://spacy.io" },
-        { "text": "Source", "url": "https://github.com/ines/course-starter-python" },
-        { "text": "Built with ♥", "url": "https://github.com/ines/course-starter-python" }
+        { "text": "페이스북", "url": "https://www.facebook.com/groups/fastaikr" }
     ],
     "theme": "#de7878"
 }

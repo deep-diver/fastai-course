@@ -1,15 +1,32 @@
 ---
-title: 'Chapter 1: Getting started'
+title: 'Chapter 1: 유틸리티 함수'
 description:
-  'This chapter will teach you about many cool things and introduce you to the
-  most important concepts of the course.'
+  'fastai가 제공하는, 귀찮은 작업을 간단하게 만들어주는 유틸리티 함수들을 살펴봅니다.'
 prev: null
 next: /chapter2
 type: chapter
 id: 1
 ---
 
-<exercise id="1" title="Introduction" type="slides">
+<exercise id="1" title="제공되는 데이터셋 다운로드">
+
+fastai의 `data.external` 모듈에서는 `URLs` 클래스와 `untar_data` 함수를 제공합니다. 
+
+`URLs` 클래스에는 미리 정의된 다양한 종류의 데이터셋을 다운로드 받기위한 주소가 상수로 등록되어 있습니다. 주피터 노트북이나 Colab 같은 환경에서는 `URLs.` 까지
+입력하면 접근 가능한 데이터셋 목록을 **자동완성** 기능으로 확인할 수 있습니다. 다만 여기서는 자동완성 기능은 제공하지 않기 때문에, 몇 가지 종류를 나열합니다. 
+가령 `MNIST_TINY`라는 데이터셋의 URL에는 `URLs.MNIST_TINY` 같은 방식으로 접근할 수 있습니다 (모든 목록은 _[[링크](https://docs.fast.ai/data.external.html)]_ 에서 확인해 보세요).
+
+아래 코드를 완성하여 `IMAGENETTE` 데이터셋에 접근해서 반환되는 값을 출력해 보세요.
+
+<codeblock id="01_01">
+
+힌트를 줄 만큼 어려운 문제가 아닙니다 :> 
+
+</codeblock>
+
+</exercise>
+
+<!-- <exercise id="1" title="Introduction" type="slides">
 
 <slides source="chapter1_01_introduction">
 </slides>
@@ -58,4 +75,4 @@ This is a hint.
 
 </codeblock>
 
-</exercise>
+</exercise> -->
