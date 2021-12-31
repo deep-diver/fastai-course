@@ -1,4 +1,4 @@
 from fastai.data.external import URLs
 
-result = URLs.IMAGENETTE
+result = URLs.COCO_TINY
 print(result)

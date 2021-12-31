@@ -5,7 +5,8 @@ def test():
     # in the meta.json for details.
 
     # If an assertion fails, the message will be displayed
-    assert "print(DATA[0])" in __solution__, "Are you printing the first record?"
-    assert some_var == len(DATA), "Are you getting the correct length?"
+    assert "URLs.COCO_TINY" in __solution__, "데이터셋을 정확히 선택하셨나요?"
+    assert "untar_data(URLs.COCO_TINY)" in __solution__, "untar_data 함수를 정확히 사용하셨나요?"
+    assert "print(path)" in __solution__, "path 변수를 출력하고있지 않습니다"
 
-    __msg__.good("Well done!")
+    __msg__.good("잘 하셨습니다!")
