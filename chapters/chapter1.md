@@ -1,5 +1,5 @@
 ---
-title: 'Chapter 1: 유틸리티 함수'
+title: '1장: 유틸리티 함수'
 description:
   'fastai가 제공하는, 귀찮은 작업을 간단하게 만들어주는 유틸리티 함수들을 살펴봅니다.'
 prev: null
@@ -159,6 +159,19 @@ range, *=, 튜플 인덱싱, 마스크 인덱싱 방법을 활용해 보세요.
 
 <exercise id="7" title="list(리스트) 기능을 확장시킨 L - 2">
 
-공사중이지 말입니다.
+`L` 객체는 또 아래와 같은 유용한 기능을 제공합니다.
+
+- [`unique()` 메서드](https://fastcore.fast.ai/foundation.html#L.unique): 리스트에서 고유한 값들만 추려내어 반환합니다. 기본적으로는 추려진 값 목록은 정렬되어 있지 않지만, 원본의 순서는 보장됩니다. `sort` 파라미터를 `True`로 설정하는 경우 목록의 정렬을 함께 수행합니다. 또한 `bidir` 파라미터를 `True`로 설정하면 결괏값에 각 목록에 인덱스를 부여한 딕셔너리도 함께 반환해 줍니다. 
+- [`filter()` 메서드](https://fastcore.fast.ai/foundation.html#L.filter): 이름 그대로 `L` 객체에 포함된 요소를 필터링합니다. 필터링은 함수를 통해 수행되며, `filter()` 메서드의 첫 번째 파라미터 또는 `f` 파라미터에 해당 함수를 등록합니다. `lambda`를 써도 상관 없습니다. 추가적으로 `negate` 파라미터를 `True`로 설정하는 경우 지정된 함수의 조건에 매칭되지 **않는** 요소만을 선택합니다. 만약 지정된 함수에 다양한 파라미터를 전달하고 싶다면 `args` 및 `kwargs` 파라미터를 활용할 수 있습니다.
+- [`argwhere()` 메서드](https://fastcore.fast.ai/foundation.html#L.argwhere): `filter()` 메서드와 동일하게 작동하지만, 실제 값 대신 조건을 만족하는 값이 위치한 인덱스 목록을 반환합니다. 마찬가지로 `negate` 파라미터가 존재합니다.
+- [`map()` 메서드](https://fastcore.fast.ai/foundation.html#L.map): 첫 번째 인자로 주어진 함수를 모든 요소에 적용하여 반환합니다. 즉 X->Y 처럼 특정 규칙에 의해 변형된 요솟값 목록을 반환하는 데 쓰입니다. 만약 지정된 함수에 다양한 파라미터를 전달하고 싶다면 `args` 및 `kwargs` 파라미터를 활용할 수 있습니다.
+
+아래 코드를 완성하여 중복된 정수 값들이 존재하는 `L` 객체가 고유한 값들만을 가지도록 만든 뒤, 모든 값들의 부호를 뒤집어 보세요 (이 때 사용되는 함수는 파이썬 표준 라이브러리인 [`operator.neg`](https://github.com/python/cpython/blob/1b37268ef10bd20c30d349b8401c88215c8a6be8/Lib/operator.py#L112)가 사용됩니다). 그 다음 특정 크기 이상의 요소들만을 추려내 보세요. `filter()`와 `argwhere()` 두 방식을 모두 사용해 보기 바랍니다 (`argwhere()` 사용시 앞서 배운 `L`의 마스킹 기법이 활용되어야 합니다)
+
+<codeblock id="01_08">
+
+`unique()`, `filter()`, `argwhere()`, `map()` 메서드를 모두 사용해야 합니다.
+
+</codeblock>
 
 </exercise>
