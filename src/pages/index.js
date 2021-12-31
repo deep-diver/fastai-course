@@ -19,10 +19,10 @@ export default ({ data }) => {
             <Logo className={classes.logo} aria-label={siteMetadata.title} />
 
             <section>
-                <h1 className={classes.subtitle}> INSERT CATCHY TAG LINE HERE </h1>
+                <h1 className={classes.subtitle}> fastai의 API 사용법을 익혀봅시다 🤗 </h1>
                 <div className={classes.introduction}>
                 <p>
-                    This is a good place to write what your course is about!  Dinosaurs? Neural Networks? LSTM? How to do taxes and not get bored? Write it here!   
+                    fastai의 API에는 꽤 편리한 기능이 많이 있습니다. 다만 설명서가 약간 부족하죠. 만약 그렇게 느끼셨다면 이 사이트가 바로 여러분을 위한 곳 입니다.
                 </p>
                 </div>
             </section>
