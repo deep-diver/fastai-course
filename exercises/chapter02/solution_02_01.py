@@ -4,6 +4,6 @@ url = "https://github.com/deep-diver/fastai-course/raw/master/data/oxford-iiit-p
 path = untar_data(url)/"images"
 files = get_image_files(path)
 
-dls = ImageDataLoaders.from_name_func(____, _____, lambda f: f[0].isupper(), 
+dls = ImageDataLoaders.from_name_func(path, files, lambda f: f[0].isupper(), 
                                       bs=4, item_tfms=Resize(224))
 dls.show_batch()
