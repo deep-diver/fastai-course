@@ -10,7 +10,7 @@ id: 2
 
 <exercise id="1" title="함수로 레이블 추출하여 입력 데이터를 준비하기">
 
-fastai에서는 이미지 분류 모델을 만드는 가장 간단한 방법으로 `ImageDataLoaders` 객체와 `cnn_learner` 함수를 제공합니다. 머신러닝으로 문제를 해결하기 위해서는 **1. 데이터** 와 **2. 모델 및 모델을 학습시키는 기법** 이 필요하며, 이 둘이 각각에 대응되는 역할을 합니다.
+fastai는 이미지 분류 모델을 만드는 가장 간단한 방법으로 `ImageDataLoaders` 객체와 `cnn_learner` 함수를 제공합니다. 머신러닝으로 문제를 해결하려면 **1. 데이터** 와 **2. 모델 및 모델을 학습시키는 기법** 이 필요하며, 이 둘이 각각에 대응되는 역할을 합니다.
 
 좀 더 구체적으로는 머신러닝 모델이 데이터를 소비하기 위해서는, 데이터가 모델이 이해할 수 있는 형식으로 포장된 다음 모델로 전달되어야 합니다. [`ImageDataLoaders`](https://docs.fast.ai/vision.data.html#ImageDataLoaders) 클래스가 제공하는 여러 (팩터리)메서드가 바로 이 역할을 수행하죠. 아래 코드의 [`from_name_func`](https://docs.fast.ai/vision.data.html#ImageDataLoaders.from_name_func)는 그 중 한 메서드입니다. 
 
@@ -85,6 +85,28 @@ fastai에서는 이미지 분류 모델을 만드는 가장 간단한 방법으�
 위 `DataFrame`을 확인했다면 해당 정보로 입력 데이터를, `ImageDataLoaders.from_df` 메서드로 구성해보세요.
 
 <codeblock id="02_05">
+</codeblock>
+
+</exercise>
+
+<exercise id="4" title="준비된 입력 데이터로 모델 학습시키기">
+
+앞서 언급한대로 fastai는 이미지 분류 모델을 만드는 가장 간단한 방법으로 `ImageDataLoaders` 객체와 `cnn_learner` 함수를 제공합니다. 머신러닝으로 문제를 해결하려면 **1. 데이터** 와 **2. 모델 및 모델을 학습시키는 기법** 이 필요하며, 이 둘이 각각에 대응되는 역할을 합니다(참고로 `ImageDataLoaders`를 사용하지 않고 입력 데이터를 준비하는 방법은 추후 다룹니다).
+
+지금까지 1~3 섹션을 통해 입력 데이터를 준비해봤으므로, 이제 준비된 입력 데이터를 **학습**한 모델을 만들어보죠. [`cnn_learner`](https://docs.fast.ai/vision.learner.html#cnn_learner) 함수는 **컨볼루션(합성곱) 신경망** 구조에 기반한 모델이 주어진 입력 데이터를 학습하는 빠른 수단을 제공합니다. 빠른 수단을 제공하는것 이면에, 이 함수에 입력 가능한 수 많은 파라미터에는 이미지넷과 유사한 데이터에서 잘 작동한다고 판단되는 기본 값을 배정해 두었습니다. 이들에 대한것은 차차 알아보도록 해요. 다만 반드시 입력되어야 하는 첫 번째와 두 번째 파라미터를 살펴보겠습니다.
+
+- **첫 번째 파라미터**: `DataLoaders` 유형의 객체(인스턴스)를 지정합니다. 앞서 1~3 섹션에서 팩터리 메서드로 만들었던 `dls` 라는 이름의 변수에 담긴것이 바로 `DataLoaders` 유형의 객체입니다. 
+- **두 번째 파라미터**: 첫 번째 파라미터로 주어진 데이터를 학습할 모델의 기본 구조를 선택합니다. 선택 가능한 모델의 종류는 [`models`](https://github.com/fastai/fastai/blob/master/fastai/vision/models/tvm.py) 모듈에 정의되어 있습니다. 
+
+사실 모델들은 순수 PyTorch로 정의된것입니다. 다만 기존의 **사전-학습된** 모델을 나만의 문제에 적용하려면, 사전-학습된 문제에만 특화된 부분은 잘라내고, 나만의 문제에 알맞은 **부분-구조**를 덧대어야만 합니다. `cnn_learner` 함수는 이 작업을 자동으로 수행해주는 데, 그 이면에는 각 모델마다 fastai에서 매핑해둔 메타데이터가 있기 때문에 가능한 것입니다. 따라서 다른 PyTorch 모델을 사용해도 무방하지만, `cnn_learner`를 그대로 사용하고 싶다면 별도의 메타데이터도 같이 작성해야만하죠(`cnn_learner` 없이 사용하는 방법은 추후 다룹니다).
+
+이렇게 두 파라미터를 제공해 `cnn_learner` 함수를 호출하면 [`Learner`](https://docs.fast.ai/learner.html#Learner) 유형의 객체가 만들어집니다. 그리고 `Learner` 객체는 지정된 모델로 지정된 데이터셋을 학습하는 다양한 수단을 제공하죠. 특히 [`fine_tune(에포크횟수)`](https://docs.fast.ai/callback.schedule.html#Learner.fine_tune) 메서드는 지정된 에포크 횟수만큼 fastai가 생각한 가장 최적의 방식으로 학습을 자동 수행하는 기능을 합니다. 
+
+한번 해보죠. 아래 코드를 완성해서 첫 번째 섹션에서 만든 `DataLoaders`를 `models.resnet18` 모델로, 1 에포크만큼만 학습시켜보세요
+* _실습 환경이 CPU 인스턴스기 때문에 데이터셋 자체도 매우 작게(약 20개), 배치 크기도 매우 작게, 모델도 가장 작은것(resnet18), 에포크 횟수도 가능한 한 작게 유지합니다_
+* _학습된 결과에는 신경쓰지 마세요. API 사용법을 익히는게 목적이며, 제대로된 결과를 확인하려면 [Colab](https://research.google.com/colaboratory/) 또는 [Sagemaker Studio Lab](https://studiolab.sagemaker.aws/)과 같은 환경에서 완전한 데이터셋(`URLs.PETS`)을 사용해야만 합니다._
+
+<codeblock id="02_06">
 </codeblock>
 
 </exercise>
