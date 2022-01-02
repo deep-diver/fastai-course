@@ -8,11 +8,11 @@ type: chapter
 id: 2
 ---
 
-<exercise id="1" title="이미지 분류 모델을 위한 입력 데이터 준비 - 1">
+<exercise id="1" title="함수로 레이블 추출하여 입력 데이터를 준비하기">
 
 fastai에서는 이미지 분류 모델을 만드는 가장 간단한 방법으로 `ImageDataLoaders` 객체와 `cnn_learner` 함수를 제공합니다. 머신러닝으로 문제를 해결하기 위해서는 **1. 데이터** 와 **2. 모델 및 모델을 학습시키는 기법** 이 필요하며, 이 둘이 각각에 대응되는 역할을 합니다.
 
-좀 더 구체적으로는 머신러닝 모델이 데이터를 소비하기 위해서는, 데이터가 모델이 이해할 수 있는 형식으로 포장된 다음 모델로 전달되어야 합니다. [`ImageDataLoaders`](https://docs.fast.ai/vision.data.html#ImageDataLoaders) 객체가 제공하는 여러 (팩터리)메서드가 바로 이 역할을 수행하죠. 아래 코드의 [`from_name_func`](https://docs.fast.ai/vision.data.html#ImageDataLoaders.from_name_func)는 그 중 한 메서드입니다. 
+좀 더 구체적으로는 머신러닝 모델이 데이터를 소비하기 위해서는, 데이터가 모델이 이해할 수 있는 형식으로 포장된 다음 모델로 전달되어야 합니다. [`ImageDataLoaders`](https://docs.fast.ai/vision.data.html#ImageDataLoaders) 클래스가 제공하는 여러 (팩터리)메서드가 바로 이 역할을 수행하죠. 아래 코드의 [`from_name_func`](https://docs.fast.ai/vision.data.html#ImageDataLoaders.from_name_func)는 그 중 한 메서드입니다. 
 
 우선 `ImageDataLoaders`의 `from_name_func` 메서드를 이해해보죠. 메서드의 이름은 `from name func` 세 부분으로 나눠서 지어졌습니다. 모델에 입력될 데이터를 가져온다(**from**). 파일 이름(**name**)으로부터 가져온다. 레이블 추출 방식에는 함수(**func**)를 사용한다. 라는 의미를 가지죠. 이 의미를 생각한 채 입력되는 처음 세 파라미터를 파악해보죠.
 - **첫 번째 파라미터**: 모델에 입력될 파일(데이터)을 검색할 디렉터리를 지정합니다.
@@ -36,7 +36,7 @@ fastai에서는 이미지 분류 모델을 만드는 가장 간단한 방법으�
 
 </exercise>
 
-<exercise id="2" title="이미지 분류 모델을 위한 입력 데이터 준비 - 2">
+<exercise id="2" title="정규 표현식으로 레이블 추출하여 입력 데이터를 준비하기">
 
 이전 내용에서는 고양이와 강아지를 구분하는 문제를 위한 데이터 입력 구성 방식을 알아보았습니다. 이번에는 고양이, 강아지 대신 동물들의 **품종**을 구분하는 문제를 다룬다고 가정해보죠. 
 
@@ -58,6 +58,33 @@ fastai에서는 이미지 분류 모델을 만드는 가장 간단한 방법으�
 
 <codeblock id="02_03">
 정규 표현식을 입력해 주세요! 본문을 참고하기 바랍니다!
+</codeblock>
+
+</exercise>
+
+<exercise id="3" title="팬더스 DataFrame으로 입력 데이터를 준비하기">
+
+때로는 디렉터리의 구조, 파이명 규칙에 별 다른 의미를 부여하지 않는 경우도 많이 접할 수 있습니다. 이 때는 보통 `csv` 파일이나 팬더스의 `DataFrame`(데이터프레임) 형식으로 각 파일에 매핑된 레이블을 표 형식으로 관리하곤 하죠. 
+
+이를위해 [`ImageDataLoaders`](https://docs.fast.ai/vision.data.html#ImageDataLoaders) 클래스는 [`from_df`](https://docs.fast.ai/vision.data.html#ImageDataLoaders.from_df)와 [`from_csv`](https://docs.fast.ai/vision.data.html#ImageDataLoaders.from_csv) (팩터리)메서드를 제공합니다. 여기서는 그 중 `from_df` 메서드를 알아볼텐데, 사용시 아래 나열된 몇 가지 파라미터만 익숙해지면 됩니다. 
+- **첫 번째 파라미터**: 정보가 담긴 팬더스 `DataFrame` 인스턴스를 지정합니다.
+- **path**: 입력 데이터인 파일이 담긴 기본 디렉터리를 지정합니다. 만약 이미지 파일명에 전체 디렉터리 경로도 포함되어 있다면 설정할 필요가 없지만(기본값 `.`), 경로를 제외한 파일명만 존재한다면 이 파라미터를 추가적으로 설정해야합니다.
+- **folder**: **path**가 베이스 경로를 지정한다면, 이 파라미터는 베이스 경로내 특정 폴더를 지정하는 데 사용됩니다. 
+- **valid_pct**: 전체 데이터 중 검증용 데이터셋의 비율을 지정합니다. 기본 값은 `0.2`로 20%를 뜻하며, 이 파라미터는 `ImageDataLoaders`의 모든 (팩터리)메서드에서 지원합니다.
+- **fn_col**: 입력될 이미지 파일명(경로까지도 포함되었을 수 있음)이 기록된 열/컬럼 이름을 지정합니다. 참고로 **fn**은 filename(파일명)을 의미합니다.
+- **label_col**: 입력될 레이블이 기록된 열/컬럼 이름을 지정합니다.
+- **label_delim**: 때로는 [멀티 레이블 분류 문제](https://en.wikipedia.org/wiki/Multi-label_classification)를 풀어야 할 때가 있습니다. 즉 각 이미지가 하나 이상의 범주에 속하는 경우죠. 이 경우 레이블 열에는 하나 이상의 레이블이 포함될 수 있으며, 각 레이블을 구분하는 구분자가 있을 수 있습니다. 가령 `동물 강아지` 라고 적혔다면, `공백 문자`를 기준으로 두 레이블을 분리해냅니다. 이 파라미터는 이 구분자를 지정하며, 지정하지 않는경우 **단일 레이블 분류 문제**로 다룹니다.
+- **valid_col**: 때로는 검증용으로 사용되어야 할 데이터를 별도로 명시하는 경우가 있습니다. 즉 검증을 위해 세심하게 디자인된 데이터 목록이 존재하는 것이죠. 이 파라미터에 검증용으로 사용되어야 할 데이터를 표시해둔 열/컬럼 이름을 지정하면, 여기서 읽어들인 데이터를 검증용 데이터로 활용하게 됩니다.
+
+아래 코드를 실행해 보세요. 그러면 `PASCAL_2007` 데이터셋에 포함된 `csv` 파일을 팬더스 `DataFrame`으로 읽어들인 후 포함된 일부 데이터를 확인할 수 있습니다. 이 `DataFrame` 정보를 기반으로 이어지는 코드를 완성해 보세요.
+
+<codeblock id="02_04">
+문제가 아닙니다! DataFrame 확인을 위해 코드를 실행해 보세요!
+</codeblock>
+
+위 `DataFrame`을 확인했다면 해당 정보로 입력 데이터를, `ImageDataLoaders.from_df` 메서드로 구성해보세요.
+
+<codeblock id="02_05">
 </codeblock>
 
 </exercise>
