@@ -113,7 +113,26 @@ fastai는 이미지 분류 모델을 만드는 가장 간단한 방법으로 `Im
 
 <exercise id="5" title="cnn_learner 함수의 다른 파라미터 둘러보기" type="slides">
 
+공사중이지 말입니다
+
 <slides source="chapter2_05">
 </slides>
+
+</exercise>
+
+<exercise id="6" title="평가지표 추가해서 학습시켜보기">
+
+<choice>
+<opt id="1" text="파일이름의 첫 번째 문자를 대문자로 변환하여 반환"></opt>
+<opt text="파일이름의 첫 번째 문자가 대문자면 True, 그렇지 않으면 False를 반환" correct="true"></opt>
+<opt text="파일이름 전체가 대문자면 True, 그렇지 않으면 False를 반환"></opt>
+<opt text="파일이름의 첫 번째 문자가 대문자면 False, 그렇지 않으면 True를 반환"></opt>
+</choice>
+
+<codeblock id="02_07">
+</codeblock>
+
+<codeblock id="02_08">
+</codeblock>
 
 </exercise>
