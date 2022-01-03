@@ -110,3 +110,10 @@ fastai는 이미지 분류 모델을 만드는 가장 간단한 방법으로 `Im
 </codeblock>
 
 </exercise>
+
+<exercise id="5" title="cnn_learner 함수의 다른 파라미터 둘러보기" type="slides">
+
+<slides source="chapter2_05">
+</slides>
+
+</exercise>
