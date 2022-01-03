@@ -113,26 +113,42 @@ fastai는 이미지 분류 모델을 만드는 가장 간단한 방법으로 `Im
 
 <exercise id="5" title="cnn_learner 함수의 다른 파라미터 둘러보기" type="slides">
 
-공사중이지 말입니다
-
 <slides source="chapter2_05">
 </slides>
 
 </exercise>
 
-<exercise id="6" title="평가지표 추가해서 학습시켜보기">
+<exercise id="6" title="정확도 평가지표 추가해서 학습시켜보기">
+
+앞서 살펴본 `cnn_learner` 함수의 파라미터 내용으로부터 간단한 문제를 하나 풀어보죠. 다음 중 모니터링 하고자하는 **평가 지표**를 지정하는 파라미터와, 모델의 머리 구조의 **선형 층의 특징 수**를 제어하는 파라미터는 무엇인가요?
 
 <choice>
-<opt id="1" text="파일이름의 첫 번째 문자를 대문자로 변환하여 반환"></opt>
-<opt text="파일이름의 첫 번째 문자가 대문자면 True, 그렇지 않으면 False를 반환" correct="true"></opt>
-<opt text="파일이름 전체가 대문자면 True, 그렇지 않으면 False를 반환"></opt>
-<opt text="파일이름의 첫 번째 문자가 대문자면 False, 그렇지 않으면 True를 반환"></opt>
+<opt text="metrics; lin_ftrs" correct="true"></opt>
+<opt text="metrics; first_bn"></opt>
+<opt text="metrics; lin_first"></opt>
+<opt text="metrics; ps"></opt>
+<opt text="cbs; lin_ftrs"></opt>
+<opt text="cbs; first_bn"></opt>
+<opt text="cbs; lin_first"></opt>
+<opt text="cbs; ps"></opt>
 </choice>
 
+그러면 `metrics` 파라미터에 **정확도** 평가지표를 추가한 채 다시 한번 모델을 학습시켜보겠습니다. 정확도 평가지표는 `accuracy`로 지정될 수 있습니다. 아래의 코드를 완성해 보세요. 그리고 `Learner` 객체의 `recorder` 속성(`Recorder` 객체)의 `plot_loss()` 메서드로, 학습 과정에서 측정된 손실의 추이를 그래프로 확인할 수 있다는 사실도 확인해 보세요.
+
 <codeblock id="02_07">
+metrics 파라미터에 accuracy를 등록해 보세요!
 </codeblock>
 
+이번에는 직접 **정확도** 평가지표를 계산하는 함수를 만들어보겠습니다. `my_accuracy` 라는 함수를 만들텐데요, 모델의 예측(`input`)과 레이블(`target`) 두 파라미터를 수용합니다. 
+
+이 둘의 자료형은 fastai에서 정의해둔 `TensorBase`와 `TensorCategory`지만, fastai에서 별도로 정의해둔 텐서 자료형은 모두 PyTorch의 텐서를 확장해 만든것입니다. 따라서 PyTorch의 표준 연산이 모두 사용 가능하므로, 단순히 PyTorch의 텐서로 생각하고 사용하여도 무방합니다. 
+
+참고로 `input` 텐서의 모양은 **배치 크기 x 범주의 개수** 이며, `target` 텐서의 모양은 **배치 크기**의 벡터 입니다. 즉 `input` 텐서는 한 배치를 구성하는 각 입력에 대한 각 범주 별 확률 값을 예측한 것이며, `target` 텐서는 한 배치를 구성하는 각 입력에 대한 실제 레이블을 정수로 표현한 것입니다. 이를 통해 계산된 정확도를 반환해 보세요. 
+- 감이 잘 안온다면 [공식 구현체](https://github.com/fastai/fastai/blob/351f4b9314e2ea23684fb2e19235ee5c5ef8cbfd/fastai/metrics.py#L97)를 참고해 보세요(거의 그대로 복사했습니다). 
+- 그리고 `my_accuracy` 함수내에서 각 파라미터의 유형, 크기, 실제 들어있는 값 등을 직접 `print`로 출력해보며 감을 익혀보기 바랍니다. 
+
 <codeblock id="02_08">
+argmax와 mean 메서드를 활용해 보세요!
 </codeblock>
 
 </exercise>

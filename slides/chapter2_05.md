@@ -79,19 +79,25 @@ type: slides
 
 ---
 
-# 학습
+# 학습 - 1
 
-- **loss_func**: 손실 함수를 지정합니다. 기본 값은 `None`으로, 이 경우 팩터리 메서드로 만들어진 `DataLoaders`로부터 사용될 손실 함수를 추론합니다. 다만 원하는 손실 함수도 얼마든지 직접 지정할 수 있습니다. fastai에서 제공하는 [목록](https://docs.fast.ai/losses.html)에서 고르거나, 여러분만의 손실 함수를 직접 만들 수도 있습니다([참고](https://docs.fast.ai/losses.html#BaseLoss)). 
+- **loss_func**: 손실 함수를 지정합니다. **기본 값**은 `None`으로, 이 경우 팩터리 메서드로 만들어진 `DataLoaders`로부터 사용될 손실 함수를 추론합니다. 다만 원하는 손실 함수도 얼마든지 직접 지정할 수 있습니다. fastai에서 제공하는 [목록](https://docs.fast.ai/losses.html)에서 고르거나, 여러분만의 손실 함수를 직접 만들 수도 있습니다([참고](https://docs.fast.ai/losses.html#BaseLoss)). 
 
-- **opt_func**: 최적화 알고리즘을 지정합니다. 기본 값은 `Adam` 입니다. 
+- **opt_func**: 최적화 알고리즘을 지정합니다. **기본 값**은 `Adam` 입니다. 그 외 사용 가능한 최적화 알고리즘은 [공식문서의 `Optimizer` 섹션](https://docs.fast.ai/optimizer.html)을 확인해 보기 바랍니다. 
 
-- **splitter**: 모델의 몸통과 머리 부분을 분리하는 방법을 지정합니다.
+- **splitter**: `freeze()` 메서드 호출시 학습을 동결시킬 부분과, 학습될 수 있는 부분을 나누어 반환하는 함수를 지정합니다. **기본 값**은 `None`인데, 이 경우 모델의 몸통과 머리 부분이 그대로 각 부분에 매핑되는 방식을 따릅니다. 
 
-- **metrics**: 평가 지표 목록을 지정합니다.
+- **train_bn**: 배치 정규화 층도 학습될 것인지를 지정하는 불리언 파라미터 입니다. **기본 값**은 `True` 입니다.
 
-- **cbs**: 콜백을 지정합니다.
+---
 
-- **train_bn**: 배치 정규화 층도 학습될 것인지를 지정합니다. 
+# 학습 - 2
+
+- **metrics**: 평가 지표 목록을 지정합니다. [단일 레이블 예측 문제](https://docs.fast.ai/metrics.html#Single-label-classification), [다중 레이블 예측 문제](https://docs.fast.ai/metrics.html#Multi-label-classification), [회귀](https://docs.fast.ai/metrics.html#Regression), [세그먼테이션](https://docs.fast.ai/metrics.html#Segmentation), [자연어 처리](https://docs.fast.ai/metrics.html#NLP) 에 따라 제공되는 목록을 확인할 수 있습니다. 하지만 여러분만의 평가 지표를 계산하는 함수도 만들 수 있는데, 여기에는 두 가지 종류가 존재합니다. 
+  - 단순히 현재 학습이 진행된 에포크마다 레이블과 예측을 비교해 결과를 계산하는 **정확도**의 경우는 `input`과 `target` 텐서 파라미터를 수용하는 함수만으로 작성할 수 있습니다. 이 두 파라미터를 통해 계산된 결과를 반환하기만 하면되죠.
+  - **재현률**, **정밀도** 등과 같이, 평가 지표 계산에 누적된 값이 필요한 경우라면 `AccumMetric` 인스턴스를 반환하면 됩니다. 자세한 내용은 추후 다시 살펴보겠습니다. 
+
+- **cbs**: 콜백을 지정합니다. fastai는 학습 루프의 모든 지점에서 모델, 데이터를 접근하고 수정할 수 있는 특별한 시스템을 제공합니다. 콜백에 대해서는 추후 다시 알아보겠습니다. 다만 학습 루프내 어떤 지점들이 지정되는지는 [공식 문서](https://docs.fast.ai/callback.core.html#Callback)에서 확인할 수 있습니다. 
 
 ---
 
