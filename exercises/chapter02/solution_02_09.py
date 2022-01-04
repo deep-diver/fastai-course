@@ -8,4 +8,4 @@ dls = ImageDataLoaders.from_name_func(path, files, lambda f: f[0].isupper(),
                                       bs=4, item_tfms=Resize(224))
 
 learner = cnn_learner(dls, models.resnet18)
-learner.summary()
+print(learner.summary())
