@@ -175,3 +175,11 @@ range, *=, 튜플 인덱싱, 마스크 인덱싱 방법을 활용해 보세요.
 </codeblock>
 
 </exercise>
+
+<exercise id="8" title="데이터 인코딩/디코딩을 위한 Transform">
+공사중이지 말입니다.
+</exercise>
+
+<exercise id="9" title="일련의 데이터 인코딩/디코딩을 위한 Pipeline">
+공사중이지 말입니다.
+</exercise>

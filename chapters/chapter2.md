@@ -152,3 +152,47 @@ argmax와 mean 메서드를 활용해 보세요!
 </codeblock>
 
 </exercise>
+
+<exercise id="7" title="모델의 형상 파악하기">
+
+만들어진 `Learner` 객체는 몇 가지 유용한 메서드를 제공합니다. 그 중 `summary()`에 대해 살펴보죠. 
+
+`Learner`의 [`summary()`]((https://github.com/fastai/fastai/blob/351f4b9314e2ea23684fb2e19235ee5c5ef8cbfd/fastai/callback/hook.py#L207)) 메서드는 `Learner`에 주입된 모델의 형상을 파악하는 데 유용한 기능을 제공합니다. 이미 Keras의 모델 요약 기능을 써본적이 있다면, 매우 친숙한 느낌의 출력물을 확인할 수 있습니다. 여기에 추가적으로, fastai는 `Learner` 객체에 추가되어 있는 콜백 목록과, 현재 학습 가능한 파라미터 그룹까지도 한 눈에 확인할 수 있도록 만들어두었습니다. 
+
+아래의 코드를 완성하여 `summary()` 메서드의 출력 결과를 확인해 보세요. `Model frozen up to parameter group #2` 라는 문구가 출력 결과에 포함되어 있을겁니다. 이 말의 의미는 전체 파라미터 그룹(리스트) 중 두 번째(`#2`) 까지가 동결되어, 학습을 진행하더라도 가중치 갱신이 이루어지지 않음을 의미합니다. 
+
+<codeblock id="02_09">
+</codeblock>
+
+그러면 이번에는 모든 파라미터의 동결을 해제한 뒤 다시 `summary()` 메서드의 출력 결과를 살펴보겠습니다. 아래 코드를 완성해 보세요. 동결 해제에는 `unfreeze()`, 동결에는 `freeze()` 메서드가 사용됩니다. 출력 결과가 `Model unfrozen` 라고 바뀌었고, `Trainable` 열이 모두 `True`로 바뀌어 **학습(가중치 갱신)이 가능한** 상태임을 알려줍니다. 
+
+<codeblock id="02_10">
+</codeblock>
+
+그렇다면 어떤 근거로, 모델의 특정 그룹이 동결될 것인지가 결정될 수 있을까요? 그 대답은 [`cnn_learner` 함수의 구현체](https://github.com/fastai/fastai/blob/6e44b354f4d12bdfa2c9530f38f851c54a05764d/fastai/vision/learner.py#L162)를 살펴보면 알 수 있습니다. 다소 내용이 복잡할 수는 있으므로 동결에 대한 부분만 설명해보죠. 내부적으로 아래와 같은 순서로 일이 처리됩니다.
+1. CNN(컨볼루션 신경망) 모델을 만들기위해 [`create_cnn_model`](https://github.com/fastai/fastai/blob/6e44b354f4d12bdfa2c9530f38f851c54a05764d/fastai/vision/learner.py#L139) 함수를 호출합니다.
+2. `create_cnn_model` 함수 내부에서는 1️⃣기존 모델의 머리와 몸통을 분리해낼 메타데이터를 가져오고, 2️⃣ 메타데이터에 기록된 인덱스를 기준으로 몸통만 따로 분리한 다음, 3️⃣ 새로운 머리(나의 작업에 특화된)를 이어 붙여 모델을 완성합니다. 즉 (원래모델의 몸통, 새로붙인 머리) 튜플이 만들어지는 것이죠. 그리고 실제로 인덱싱 `[0]`, `[1]` 을 통해 각 부분에 접근하는것도 가능합니다. 
+3. 그리고 마지막으로 `Learner` 객체에 `splitter` 파라미터를 넘겨줍니다. 이 파라미터로는 파라미터 리스트를 반환하는 함수가 지정되어야 합니다. 그리고 이 함수가 반환하는 리스트의 요소 중 마지막을 기준으로 **동결**시킬 그룹이 나뉘어집니다. 한편 이 파라미터 그룹은 **동결** 목적에만 사용되는것은 아닙니다. fastai의 차별적 학습률 적용 기법에서도 활용되는 부분으로, 여기에 명시된 그룹별로 서로 다른 학습률을 배정해 학습을 진행시킬 수도 있습니다 ([ResNet 계열의 `splitter` 함수의 구현체](https://github.com/fastai/fastai/blob/6e44b354f4d12bdfa2c9530f38f851c54a05764d/fastai/vision/learner.py#L105)).
+
+그러면 이 사실을 한번 눈으로 확인해보죠. 우선 메타 데이터의 생김새를 확인합니다. 참고로 메타 데이터는 `model_meta[모델명]`으로 가져올 수 있습니다(여러분이 직접 모델을 만든다면 별도로 메타 데이터를 등록해 줘야합니다).
+
+<codeblock id="02_11">
+</codeblock>
+
+보다시피 머리와 몸통을 분리할 지점(인덱스)인 `cut`, `splitter`로 사용될 함수인 `_resnet_split`이 메타 데이터로 등록된 것을 확인할 수 있습니다. 그러면 이번에는 `Learner` 객체에 할당된 모델의 어느 부분이 `splitter`에 영향을 받는지 확인해보죠. 
+
+<codeblock id="02_12">
+</codeblock>
+
+출력 결과와 [ResNet 계열의 `splitter` 함수의 구현체](https://github.com/fastai/fastai/blob/6e44b354f4d12bdfa2c9530f38f851c54a05764d/fastai/vision/learner.py#L105)를 비교해보죠. **몸통**의 길이는 8인데, `splitter`의 반환 값 중 처음 두 개에 `0~5`, `6~8` 번째의 부분-몸통이 할당되어 있습니다. 또한 반환 값의 마지막애는 **머리**가 통째로 할당되었습니다. 즉 **동결**시 마지막 **머리**를 제외한 나머지가 **동결** 된다는 의미이며, 차별적 학습률이 적용될 때는 **몸통의 두 부분**과 **머리**, 즉 세 부분에 대해 서로다른 학습률을 할당하겠다고 해석될 수 있습니다. 
+
+</exercise>
+
+<exercise id="8" title="학습 루프의 형상 파악하기">
+
+learner.show_training_loop() [소스](https://github.com/fastai/fastai/blob/f05e1160f8a688359f7875feb24e80906f1fceb5/fastai/learner.py#L281)
+
+<codeblock id="02_13">
+</codeblock>
+
+</exercise>
