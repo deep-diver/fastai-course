@@ -224,3 +224,9 @@ fastcore 패키지에서는 이러한 데이터 변형 파이프라인을 손쉽
 Pipeline에 알맞은 변형 절차를 대입해 보세요
 </codeblock>
 </exercise>
+
+<exercise id="11" title="기존 기능에 추가 기능 얹기(몽키 패치)">
+</exercise>
+
+<exercise id="12" title="글로벌 메서드 오버로딩(타입 디스패치)">
+</exercise>
