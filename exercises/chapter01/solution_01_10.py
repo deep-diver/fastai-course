@@ -14,8 +14,8 @@ class ImageToTensor(Transform):
         res = tensor_img.permute(1,2,0).numpy().astype(np.uint8)
         return to_pil_image(res)
 
-    def encodes(self, o:Path): return self.image2tensor(_____.____(_))
-    def encodes(self, o:Image.Image): return self.image2tensor(_)
+    def encodes(self, o:Path): return self.image2tensor(Image.open(o))
+    def encodes(self, o:Image.Image): return self.image2tensor(o)
 
     def decodes(self, o:Tensor): return self.tensor2img(o)
 
@@ -24,8 +24,8 @@ filename = (untar_data(url)/'images').ls()[0]
 pil_image = Image.open(filename)
 
 t = ImageToTensor()
-encoded_img1 = t(________)
-encoded_img2 = t(_________)
+encoded_img1 = t(filename)
+encoded_img2 = t(pil_image)
 
 assert torch.equal(encoded_img1, encoded_img2) == True
 
