@@ -180,7 +180,7 @@ range, *=, 튜플 인덱싱, 마스크 인덱싱 방법을 활용해 보세요.
 
 종종 데이터는 일련의 변형 과정을 거쳐 원하는 최종 결과물로 만들어집니다. 가령 파일명(`Path`) => 파이썬 객체로 표현된 이미지(`PIL.Image.Image`) => 텐서로 표현된 이미지(`torch.tensor.Tensor`) 처럼 데이터의 형식 자체를 바꿔버리는 데이터 변형 파이프라인이 있을 수 있습니다. 여기에 추가적으로 텐서로 표현된 이미지(`torch.tensor.Tensor`)를 => 부동소수로 표현된 픽셀 값 => 픽셀 값 정규화와 같이 모델이 기대하는 입력 값으로 변형시키는 파이프라인도 존재할 수 있겠죠. 
 
-fastcore 패키지에서는 이러한 데이터 변형 파이프라인을 손쉽게 작성할 수 있는 클래스로, `transform` 서브 모듈내 `Transform`과 `Pipeline`을 제공하고 있습니다. 그리고 이것이 실제로 fastai 라이브러리에서 데이터 변형을 처리하는 주요 수단으로 이용되고 있죠.
+fastcore 패키지에서는 이러한 데이터 변형 파이프라인을 손쉽게 작성할 수 있는 클래스로, `transform` 서브 모듈내 [`Transform`](https://fastcore.fast.ai/transform.html#Transform)과 [`Pipeline`](https://fastcore.fast.ai/transform.html#Pipeline)을 제공하고 있습니다. 그리고 이것이 실제로 fastai 라이브러리에서 데이터 변형을 처리하는 주요 수단으로 이용되고 있죠.
 
 이름에서 알 수 있듯이 `Pipeline`은 일련의 `Transform` 객체로 구성되어 데이터 변형 파이프라인을 구성합니다. 가령 `Pipeline([변형1, 변형2, ...])`와 같은 식이죠. 그리고 나만의 `Transform` 클래스를 작성하는 방법은 `Transform` 클래스를 상속받고, 여기에 변형될 값을 반환하는 `encodes(self, o)` 메서드를 구현하는 간단한 절차로 구성됩니다. 또한 변형된 값을 다시 원복하려면 원복될 값을 `decodes(self, o)`라는 디코딩용 메서드를 구현하면 됩니다(`decodes`의 `o`는 `encodes`를 통해 변형된 데이터라고 가정합니다).
 
@@ -211,7 +211,16 @@ fastcore 패키지에서는 이러한 데이터 변형 파이프라인을 손쉽
 </exercise>
 
 <exercise id="10" title="일련의 데이터 인코딩/디코딩을 위한 Pipeline">
+
+이렇게 `Transform`에 대해 간단히 알아보았습니다. 하지만 일련의 변형이 순차적으로 적용되고, 다시 역순으로 순차적으로 원복되는 그림이 일반적이죠. 하나의 변형만 있을 수도 있지만, 보통은 여러개의 변형이 얽히기 마련입니다. 이번에 다룰 내용은 [`Pipeline`](https://fastcore.fast.ai/transform.html#Pipeline)으로 일련의 `Transform`을 수행할 수 있도록 도와주는 클래스입니다. 
+
+사용 방법은 매우 간단합니다. 단순히 `Pipieline([변형1, 변형2, ...])` 형식으로 객체를 만들면 되죠. 그리고 `Transform`을 사용했을때와 마찬가지로 입력 데이터를 넣고, 객체 자신을 호출해 변형하거나 `decode` 메서드를 사용하면 됩니다. 
+
+아래의 코드는 `이미지 파일의 경로 입력` => `PIL 이미지로 변형` => `텐서로 변환` => `부동 소수로 변환` => `정규화` 과정을 거치는 `Pipeline`을 보여줍니다. 각 변형에 대한 코드는 신경쓰지 마세요. 여기서는 `Pipeline`에만 집중하면 됩니다. 한 가지 추가적으로 알아둬야 할 것은 꼭 `Transform`일 필요는 없다는 것입니다. 단순히 뭔가를 입력받아 뱉어내는 함수도 가능하며(`fn2Image 참고`), [**콜러블(callable)**](https://technote.kr/258)한 것이면 무엇이든 사용할 수 있다는 것이죠. 따라서 PyTorch의 [`Compose`](https://pytorch.org/vision/main/generated/torchvision.transforms.Compose.html)와 함게 사용되는 다양한 [`transform`](https://pytorch.org/vision/stable/transforms.html)도 버무려서 함께 활용할 수 있겠죠.
+
+아래 코드의 `Pipeline`을 완성하고 그 결과를 확인해 보세요.
+
 <codeblock id="01_11">
-타입에 알맞은 캐스팅을 해보세요. Transform 객체를 통해 변형, 원복하는 방법을 떠올려보세요!
+Pipeline에 알맞은 변형 절차를 대입해 보세요
 </codeblock>
 </exercise>

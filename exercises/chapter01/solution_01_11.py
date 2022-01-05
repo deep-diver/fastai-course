@@ -34,7 +34,7 @@ class NormalizeTensor(Transform):
     def encodes(self, o:Tensor): return o/255
     def decodes(self, o:Tensor): return torch.minimum(o*255, tensor(255))
 
-pipe = Pipeline([________, __________, ______________, _____________])
+pipe = Pipeline([fn2Image, ToMyTensor, IntToFloatTensor, NormalizeTensor])
 encoded_img = pipe(filename)
 decoded_img = pipe.decode(encoded_img)
 print(f"{type(encoded_img)}, {type(decoded_img)}")
